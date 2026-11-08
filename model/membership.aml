@@ -1,0 +1,278 @@
+timeout 2.0
+
+external('matrix') {
+  stimulus 'admin_invite'
+  stimulus 'admin_ban'
+  stimulus 'admin_unban'
+  stimulus 'bob_join'
+  stimulus 'bob_leave'
+  stimulus 'admin_kick'
+  stimulus 'eve_kick'
+  stimulus 'eve_ban'
+
+  response 'ok'
+  response 'forbidden'
+}
+
+process('membership') {
+
+  state 'never'
+  choice {
+    option {
+      receive 'admin_invite'
+      send 'ok'
+      goto 'invite'
+    }
+    option {
+      receive 'admin_ban'
+      send 'ok'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_unban'
+      choice {
+        option {
+          send 'ok'
+          goto 'leave'
+        }
+        option {
+          send 'forbidden'
+          goto 'never'
+        }
+      }
+    }
+    option {
+      receive 'bob_join'
+      send 'forbidden'
+      goto 'never'
+    }
+    option {
+      receive 'bob_leave'
+      send 'forbidden'
+      goto 'never'
+    }
+    option {
+      receive 'admin_kick'
+      send 'forbidden'
+      goto 'never'
+    }
+    option {
+      receive 'eve_kick'
+      send 'forbidden'
+      goto 'never'
+    }
+    option {
+      receive 'eve_ban'
+      send 'forbidden'
+      goto 'never'
+    }
+  }
+
+  state 'invite'
+  choice {
+    option {
+      receive 'admin_invite'
+      send 'ok'
+      goto 'invite'
+    }
+    option {
+      receive 'admin_ban'
+      send 'ok'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_unban'
+      choice {
+        option {
+          send 'ok'
+          goto 'leave'
+        }
+        option {
+          send 'forbidden'
+          goto 'invite'
+        }
+      }
+    }
+    option {
+      receive 'bob_join'
+      send 'ok'
+      goto 'join'
+    }
+    option {
+      receive 'bob_leave'
+      send 'ok'
+      goto 'leave'
+    }
+    option {
+      receive 'admin_kick'
+      send 'ok'
+      goto 'leave'
+    }
+    option {
+      receive 'eve_kick'
+      send 'forbidden'
+      goto 'invite'
+    }
+    option {
+      receive 'eve_ban'
+      send 'forbidden'
+      goto 'invite'
+    }
+  }
+
+  state 'join'
+  choice {
+    option {
+      receive 'admin_invite'
+      send 'forbidden'
+      goto 'join'
+    }
+    option {
+      receive 'admin_ban'
+      send 'ok'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_unban'
+      choice {
+        option {
+          send 'ok'
+          goto 'leave'
+        }
+        option {
+          send 'forbidden'
+          goto 'join'
+        }
+      }
+    }
+    option {
+      receive 'bob_join'
+      send 'ok'
+      goto 'join'
+    }
+    option {
+      receive 'bob_leave'
+      send 'ok'
+      goto 'leave'
+    }
+    option {
+      receive 'admin_kick'
+      send 'ok'
+      goto 'leave'
+    }
+    option {
+      receive 'eve_kick'
+      send 'forbidden'
+      goto 'join'
+    }
+    option {
+      receive 'eve_ban'
+      send 'forbidden'
+      goto 'join'
+    }
+  }
+
+  state 'leave'
+  choice {
+    option {
+      receive 'admin_invite'
+      send 'ok'
+      goto 'invite'
+    }
+    option {
+      receive 'admin_ban'
+      send 'ok'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_unban'
+      choice {
+        option {
+          send 'ok'
+          goto 'leave'
+        }
+        option {
+          send 'forbidden'
+          goto 'leave'
+        }
+      }
+    }
+    option {
+      receive 'bob_join'
+      send 'forbidden'
+      goto 'leave'
+    }
+    option {
+      receive 'bob_leave'
+      choice {
+        option {
+          send 'ok'
+          goto 'leave'
+        }
+        option {
+          send 'forbidden'
+          goto 'leave'
+        }
+      }
+    }
+    option {
+      receive 'admin_kick'
+      send 'forbidden'
+      goto 'leave'
+    }
+    option {
+      receive 'eve_kick'
+      send 'forbidden'
+      goto 'leave'
+    }
+    option {
+      receive 'eve_ban'
+      send 'forbidden'
+      goto 'leave'
+    }
+  }
+
+  state 'ban'
+  choice {
+    option {
+      receive 'admin_invite'
+      send 'forbidden'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_ban'
+      send 'ok'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_unban'
+      send 'ok'
+      goto 'leave'
+    }
+    option {
+      receive 'bob_join'
+      send 'forbidden'
+      goto 'ban'
+    }
+    option {
+      receive 'bob_leave'
+      send 'forbidden'
+      goto 'ban'
+    }
+    option {
+      receive 'admin_kick'
+      send 'forbidden'
+      goto 'ban'
+    }
+    option {
+      receive 'eve_kick'
+      send 'forbidden'
+      goto 'ban'
+    }
+    option {
+      receive 'eve_ban'
+      send 'forbidden'
+      goto 'ban'
+    }
+  }
+}

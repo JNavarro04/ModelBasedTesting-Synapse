@@ -1,0 +1,8 @@
+services:
+  synapse:
+    image: matrixdotorg/synapse:v1.160.0
+    container_name: synapse
+    ports:
+      - "8008:8008"
+    volumes:
+      - ./synapse-data:/data

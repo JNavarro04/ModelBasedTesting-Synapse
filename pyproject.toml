@@ -1,0 +1,9 @@
+[project]
+name = "modelbasedtesting-synapse"
+version = "0.1.0"
+description = "Model-based testing of Synapse room membership with AMP"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "requests>=2.34.2",
+]
