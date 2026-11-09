@@ -5,5 +5,7 @@ description = "Model-based testing of Synapse room membership with AMP"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "protobuf>=7.36.2",
     "requests>=2.34.2",
+    "websocket-client~=1.8.0",
 ]
