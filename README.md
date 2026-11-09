@@ -68,3 +68,15 @@ the Matrix error code and `bob`'s membership afterwards.
 `model/membership.aml` is loaded into AMP (course02.axini.com). It has one state per
 membership of `bob` (`never`, `invite`, `join`, `leave`, `ban`) and one stimulus per
 action and actor (`admin_*`, `bob_*`, `eve_*`), with responses `ok` (200) and `forbidden` (403).
+
+## 4. Run the adapter
+
+With Synapse running:
+
+```bash
+cd adapter
+uv run python plugin_adapter.py -u wss://course02.axini.com:443/adapters -t <AMP API key>
+```
+
+In AMP: map the channel `matrix` to this adapter on the Adapters page, keep
+`synapse_url = http://localhost:8008`, and start a test run.
