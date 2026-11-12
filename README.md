@@ -39,9 +39,11 @@ rc_joins:
 rc_invites:
   per_room:   {per_second: 1000, burst_count: 1000}
   per_user:   {per_second: 1000, burst_count: 1000}
+  per_issuer: {per_second: 1000, burst_count: 1000}
 rc_login:
   address: {per_second: 1000, burst_count: 1000}
   account: {per_second: 1000, burst_count: 1000}
+rc_room_creation: {per_second: 1000, burst_count: 1000}
 ```
 
 The raised rate limits are needed because MBT sends many requests in a short time.
